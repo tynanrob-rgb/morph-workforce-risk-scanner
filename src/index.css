@@ -273,6 +273,18 @@ button {
   margin-bottom: 20px;
 }
 
+.compact-heading {
+  margin: 8px 0 0;
+}
+
+.compact-heading h2 {
+  font-size: 1.25rem;
+}
+
+.compact-heading p {
+  margin-top: 6px;
+}
+
 .form-grid {
   display: grid;
   gap: 18px;
@@ -825,7 +837,8 @@ select:focus {
 }
 
 .driver-panel,
-.evidence-panel {
+.evidence-panel,
+.opportunity-panel {
   border: 1px solid var(--border);
   border-radius: 18px;
   padding: 18px;
@@ -862,6 +875,50 @@ select:focus {
 .recommendation-list li + li,
 .evidence-list li + li {
   margin-top: 8px;
+}
+
+.opportunity-panel {
+  display: grid;
+  gap: 16px;
+}
+
+.opportunity-panel-strong {
+  border: 2px solid rgba(47, 107, 87, 0.18);
+  background: linear-gradient(180deg, rgba(247, 251, 249, 0.98), rgba(242, 248, 245, 0.98));
+}
+
+.opportunity-copy,
+.opportunity-note p {
+  margin: 0;
+  color: var(--muted);
+}
+
+.opportunity-note {
+  display: grid;
+  gap: 10px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.opportunity-note strong {
+  color: var(--hero-ink);
+}
+
+.learn-more-deep {
+  margin-top: 4px;
+}
+
+.deep-explainer {
+  display: grid;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.deep-explainer p {
+  margin: 0;
+  color: var(--muted);
 }
 
 @media (min-width: 860px) {

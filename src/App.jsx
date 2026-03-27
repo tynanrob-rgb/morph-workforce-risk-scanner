@@ -76,6 +76,29 @@ function App() {
       nextErrors.wellbeingScreeningOffered = 'Please indicate whether wellbeing screening is offered.';
     }
 
+    if (formData.productiveDayValue === '') {
+      nextErrors.productiveDayValue = 'Please enter the value of one productive worker day.';
+    } else if (Number(formData.productiveDayValue) < 0) {
+      nextErrors.productiveDayValue = 'Productive day value cannot be negative.';
+    }
+
+    if (formData.overtimePremiumPercent === '') {
+      nextErrors.overtimePremiumPercent = 'Please enter the overtime or replacement premium.';
+    } else if (Number(formData.overtimePremiumPercent) < 0) {
+      nextErrors.overtimePremiumPercent = 'Overtime or replacement premium cannot be negative.';
+    }
+
+    if (formData.delayCostPerDay === '') {
+      nextErrors.delayCostPerDay = 'Please enter the project delay cost per day.';
+    } else if (Number(formData.delayCostPerDay) < 0) {
+      nextErrors.delayCostPerDay = 'Project delay cost per day cannot be negative.';
+    }
+
+    if (!formData.criticalPathSensitivity) {
+      nextErrors.criticalPathSensitivity =
+        'Please select how sensitive the project is to labour disruption.';
+    }
+
     return nextErrors;
   };
 
@@ -247,6 +270,42 @@ function App() {
             safety risk. That is because unmanaged tiredness can lead to poor decisions, hidden
             strain, and more muscle and joint injuries.
           </p>
+          <details className="learn-more learn-more-deep">
+            <summary>Learn more about the 10% fatigue improvement model</summary>
+            <div className="deep-explainer">
+              <p>
+                The scanner can also show a simple opportunity view: what could change if fatigue
+                improved by 10%.
+              </p>
+              <p>
+                First, it reduces the fatigue score by 10%. Then it recalculates the full weighted
+                risk score using the same category weights.
+              </p>
+              <p>
+                Next, it estimates total days lost from workforce size x average sick days. It then
+                assumes 20% of those lost days are linked to fatigue, recovery, and strain in this
+                model.
+              </p>
+              <p>
+                A 10% fatigue improvement is applied to that fatigue-linked slice to estimate days
+                protected. Those days are then multiplied by the daily salary assumption for the
+                chosen construction profile to estimate value protected.
+              </p>
+              <p>
+                If commercial inputs are added, the scanner also estimates operational value
+                protected, overtime or replacement cost pressure protected, and potential
+                delay or disruption cost avoided.
+              </p>
+              <p>
+                Those figures come from the productive day value, overtime premium, delay cost per
+                day, and critical path sensitivity entered in the form.
+              </p>
+              <p>
+                This is not a guaranteed saving. It is a directional way to show the possible
+                upside of better fatigue management.
+              </p>
+            </div>
+          </details>
         </div>
       </section>
 

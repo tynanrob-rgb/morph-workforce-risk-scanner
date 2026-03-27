@@ -6,6 +6,7 @@ const SITE_PROFILE_OPTIONS = [
 ];
 
 const SITE_TYPE_OPTIONS = ['New build', 'Refurbishment', 'Maintenance', 'Demolition'];
+const CRITICAL_PATH_OPTIONS = ['Low', 'Medium', 'High'];
 
 const WORK_AT_HEIGHT_OPTIONS = [
   { value: 'low', label: 'Low', hint: 'Rare or tightly controlled work at height' },
@@ -285,6 +286,104 @@ function RiskForm({ formData, errors, onChange, onSubmit, onReset }) {
             <span className="error-text">{errors.wellbeingScreeningOffered}</span>
           ) : null}
         </div>
+
+        <div className="section-heading compact-heading">
+          <h2>Commercial opportunity inputs</h2>
+          <p>Add simple commercial assumptions to estimate broader construction upside.</p>
+        </div>
+
+        <label className={getFieldClassName(errors.productiveDayValue)}>
+          <div className="field-head">
+            <span className="field-label">Value of one good working day on site</span>
+            <span className="field-hint">A simple estimate of what one productive day is worth to the business</span>
+          </div>
+          <input
+            type="number"
+            min="0"
+            inputMode="decimal"
+            placeholder="350"
+            value={formData.productiveDayValue}
+            onChange={(event) => onChange('productiveDayValue', event.target.value)}
+            aria-invalid={Boolean(errors.productiveDayValue)}
+          />
+          <LearnMore>
+            This is not pay. It is the business value of one worker having a good, productive day.
+          </LearnMore>
+          {errors.productiveDayValue ? (
+            <span className="error-text">{errors.productiveDayValue}</span>
+          ) : null}
+        </label>
+
+        <label className={getFieldClassName(errors.overtimePremiumPercent)}>
+          <div className="field-head">
+            <span className="field-label">Extra cost of covering lost labour time (%)</span>
+            <span className="field-hint">How much more it usually costs to cover missed time</span>
+          </div>
+          <input
+            type="number"
+            min="0"
+            inputMode="decimal"
+            placeholder="25"
+            value={formData.overtimePremiumPercent}
+            onChange={(event) => onChange('overtimePremiumPercent', event.target.value)}
+            aria-invalid={Boolean(errors.overtimePremiumPercent)}
+          />
+          <LearnMore>
+            If cover, overtime, or replacement labour costs more than normal, add that extra %
+            here.
+          </LearnMore>
+          {errors.overtimePremiumPercent ? (
+            <span className="error-text">{errors.overtimePremiumPercent}</span>
+          ) : null}
+        </label>
+
+        <label className={getFieldClassName(errors.delayCostPerDay)}>
+          <div className="field-head">
+            <span className="field-label">Cost of one day of project delay</span>
+            <span className="field-hint">A simple estimate of what one lost day costs the job</span>
+          </div>
+          <input
+            type="number"
+            min="0"
+            inputMode="decimal"
+            placeholder="2000"
+            value={formData.delayCostPerDay}
+            onChange={(event) => onChange('delayCostPerDay', event.target.value)}
+            aria-invalid={Boolean(errors.delayCostPerDay)}
+          />
+          <LearnMore>
+            This helps show how labour disruption can affect programme cost and site performance.
+          </LearnMore>
+          {errors.delayCostPerDay ? (
+            <span className="error-text">{errors.delayCostPerDay}</span>
+          ) : null}
+        </label>
+
+        <label className={getFieldClassName(errors.criticalPathSensitivity)}>
+          <div className="field-head">
+            <span className="field-label">How badly would labour disruption affect the job?</span>
+            <span className="field-hint">Choose how easily labour shortages could delay the project</span>
+          </div>
+          <select
+            value={formData.criticalPathSensitivity}
+            onChange={(event) => onChange('criticalPathSensitivity', event.target.value)}
+            aria-invalid={Boolean(errors.criticalPathSensitivity)}
+          >
+            <option value="">Select sensitivity</option>
+            {CRITICAL_PATH_OPTIONS.map((option) => (
+              <option key={option} value={option}>
+                {option}
+              </option>
+            ))}
+          </select>
+          <LearnMore>
+            Higher means labour disruption is more likely to slow the programme and affect finish
+            dates.
+          </LearnMore>
+          {errors.criticalPathSensitivity ? (
+            <span className="error-text">{errors.criticalPathSensitivity}</span>
+          ) : null}
+        </label>
 
         <div className="button-group">
           <button className="primary-button" type="submit">

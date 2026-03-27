@@ -22,12 +22,21 @@ const siteTypeAdjustment = {
   Demolition: 14,
 };
 
+const criticalPathFactors = {
+  Low: 0.05,
+  Medium: 0.12,
+  High: 0.2,
+};
+
 const ukConstructionEvidence = [
   'Construction accounted for 35 worker fatalities in Great Britain in 2024/25, the highest of any main industry.',
   'Falls from height caused 35 worker deaths in 2024/25, making height exposure a major site risk factor.',
   'Work-related stress, depression or anxiety affected 964,000 workers in 2024/25 and drove 22.1 million days lost.',
   'CCS guidance says fatigue is a major risk and cites 80% of UK construction workers not getting sufficient good-quality sleep.',
 ];
+
+const FATIGUE_IMPROVEMENT_RATE = 0.1;
+const FATIGUE_LINKED_ABSENCE_SHARE = 0.2;
 
 function buildIntervention(riskBand, categoryScores, formData) {
   const recommendations = [];
@@ -143,6 +152,10 @@ export function getInitialFormData() {
     fatigueMonitoring: '',
     mentalHealthSupport: '',
     wellbeingScreeningOffered: '',
+    productiveDayValue: '',
+    overtimePremiumPercent: '',
+    delayCostPerDay: '',
+    criticalPathSensitivity: '',
   };
 }
 
@@ -191,6 +204,9 @@ export function calculateRiskResults(formData) {
   const workforceSize = Math.max(1, Number(formData.workforceSize) || 0);
   const injuryFrequency = Math.max(0, Number(formData.injuryFrequency) || 0);
   const absenteeism = Math.max(0, Number(formData.absenteeism) || 0);
+  const productiveDayValue = Math.max(0, Number(formData.productiveDayValue) || 0);
+  const overtimePremiumPercent = Math.max(0, Number(formData.overtimePremiumPercent) || 0);
+  const delayCostPerDay = Math.max(0, Number(formData.delayCostPerDay) || 0);
   const selectedProfile =
     siteProfileData[formData.siteProfile] || siteProfileData['Main contractor'];
 
@@ -242,6 +258,28 @@ export function calculateRiskResults(formData) {
   const riskBand = getRiskBand(riskScore);
   const intervention = buildIntervention(riskBand, categoryScores, formData);
 
+  const improvedFatigueScore = Math.max(
+    0,
+    Math.round(fatigueScore * (1 - FATIGUE_IMPROVEMENT_RATE)),
+  );
+  const improvedRiskScore = Math.round(
+    categoryScores.safety * 0.35 +
+      categoryScores.productivity * 0.25 +
+      improvedFatigueScore * 0.2 +
+      categoryScores.wellbeing * 0.2,
+  );
+  const riskReduction = Math.max(0, riskScore - improvedRiskScore);
+  const totalDaysLost = workforceSize * absenteeism;
+  const fatigueLinkedDays = totalDaysLost * FATIGUE_LINKED_ABSENCE_SHARE;
+  const protectedDays = Math.round(fatigueLinkedDays * FATIGUE_IMPROVEMENT_RATE);
+  const protectedValue = protectedDays * selectedProfile.dailySalary;
+  const operationalValueProtected = protectedDays * productiveDayValue;
+  const overtimeReplacementCostProtected =
+    protectedDays * selectedProfile.dailySalary * (overtimePremiumPercent / 100);
+  const delayDaysAvoided =
+    protectedDays * (criticalPathFactors[formData.criticalPathSensitivity] ?? 0);
+  const delayCostAvoided = delayDaysAvoided * delayCostPerDay;
+
   return {
     absenteeismCost,
     injuryCost,
@@ -260,5 +298,31 @@ export function calculateRiskResults(formData) {
     recommendations: intervention.recommendations,
     riskDrivers: getTopRiskDrivers(categoryScores, formData),
     ukConstructionEvidence,
+    improvedFatigueScore,
+    improvedRiskScore,
+    riskReduction,
+    totalDaysLost,
+    fatigueLinkedDays,
+    protectedDays,
+    protectedValue,
+    formattedProtectedValue: formatCurrency(protectedValue),
+    protectedValuePerDay: selectedProfile.dailySalary,
+    formattedProtectedValuePerDay: formatCurrency(selectedProfile.dailySalary),
+    operationalValueProtected,
+    formattedOperationalValueProtected: formatCurrency(operationalValueProtected),
+    overtimeReplacementCostProtected,
+    formattedOvertimeReplacementCostProtected: formatCurrency(overtimeReplacementCostProtected),
+    delayDaysAvoided,
+    delayCostAvoided,
+    formattedDelayCostAvoided: formatCurrency(delayCostAvoided),
+    productiveDayValue,
+    formattedProductiveDayValue: formatCurrency(productiveDayValue),
+    overtimePremiumPercent,
+    delayCostPerDay,
+    formattedDelayCostPerDay: formatCurrency(delayCostPerDay),
+    criticalPathSensitivity: formData.criticalPathSensitivity,
+    criticalPathFactor: criticalPathFactors[formData.criticalPathSensitivity] ?? 0,
+    fatigueImprovementRate: FATIGUE_IMPROVEMENT_RATE,
+    fatigueLinkedAbsenceShare: FATIGUE_LINKED_ABSENCE_SHARE,
   };
 }
