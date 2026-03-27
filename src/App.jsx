@@ -63,6 +63,11 @@ function App() {
       nextErrors.fatigueRisk = 'Please select a fatigue risk level.';
     }
 
+    if (!formData.fatigueMonitoring) {
+      nextErrors.fatigueMonitoring =
+        'Please indicate whether the company considers or measures fatigue build-up.';
+    }
+
     if (!formData.mentalHealthSupport) {
       nextErrors.mentalHealthSupport = 'Please indicate whether a mental health support pathway exists.';
     }
@@ -89,12 +94,6 @@ function App() {
 
   const handleReset = () => {
     setFormData(getInitialFormData());
-    setErrors({});
-    setResults(null);
-  };
-
-  const handleApplyScenario = (scenario) => {
-    setFormData(scenario);
     setErrors({});
     setResults(null);
   };
@@ -154,6 +153,103 @@ function App() {
         ))}
       </section>
 
+      <section className="logic-panel">
+        <div className="logic-copy">
+          <p className="eyebrow">How the score works</p>
+          <h2>Transparent weighting built for UK construction risk.</h2>
+          <p>
+            This score mixes safety, absence, fatigue, and support gaps. It helps start a smarter
+            conversation. It does not replace full HR, claims, or HSE review.
+          </p>
+        </div>
+
+        <div className="logic-grid">
+          <article className="logic-card">
+            <span className="logic-weight">35%</span>
+            <h3>Safety and site exposure</h3>
+            <p>Based on injuries, site type, and work at height.</p>
+            <p className="logic-detail">
+              <strong>Why it matters:</strong> Construction had the most worker deaths in Great
+              Britain in 2024/25. Falls from height were the biggest single cause.
+            </p>
+            <p className="logic-detail">
+              <strong>How it is scored:</strong> More injuries and more work at height push this
+              score up.
+            </p>
+            <p className="logic-detail">
+              <strong>Why it is weighted this way:</strong> It has the biggest weight because it is
+              the most urgent risk on site.
+            </p>
+          </article>
+
+          <article className="logic-card">
+            <span className="logic-weight">25%</span>
+            <h3>Absence and productivity</h3>
+            <p>Based on sick days and lost work time.</p>
+            <p className="logic-detail">
+              <strong>Why it matters:</strong> Lost time is a big business cost. Mental health and
+              muscle and joint problems drive many missed days.
+            </p>
+            <p className="logic-detail">
+              <strong>How it is scored:</strong> More sick days push this score up.
+            </p>
+            <p className="logic-detail">
+              <strong>Why it is weighted this way:</strong> It matters a lot because missed work
+              hurts delivery, labour cover, and cost.
+            </p>
+          </article>
+
+          <article className="logic-card">
+            <span className="logic-weight">20%</span>
+            <h3>Fatigue and recovery</h3>
+            <p>Based on tiredness risk, work at height, and fatigue checks.</p>
+            <p className="logic-detail">
+              <strong>Why it matters:</strong> CCS says fatigue is a major construction risk, and
+              80% of UK construction workers are not getting enough good sleep.
+            </p>
+            <p className="logic-detail">
+              <strong>How it is scored:</strong> This score goes up if people are more tired, work
+              at height more often, or if fatigue is not being checked.
+            </p>
+            <p className="logic-detail">
+              <strong>Why it is weighted this way:</strong> Tired workers make more mistakes and
+              can pick up more strain and injury, so this needs its own weight.
+            </p>
+          </article>
+
+          <article className="logic-card">
+            <span className="logic-weight">20%</span>
+            <h3>Mental health and wellbeing support</h3>
+            <p>Based on support in place for stress, health, and early checks.</p>
+            <p className="logic-detail">
+              <strong>Why it matters:</strong> Stress, depression, and anxiety are a big cause of
+              ill health, and site standards now expect companies to support worker wellbeing.
+            </p>
+            <p className="logic-detail">
+              <strong>How it is scored:</strong> This score goes up when support and screening are
+              missing.
+            </p>
+            <p className="logic-detail">
+              <strong>Why it is weighted this way:</strong> Better support helps people stay
+              healthier, stay longer, and work better.
+            </p>
+          </article>
+        </div>
+
+        <div className="logic-note">
+          <span className="metric-label">Evidence base used</span>
+          <p>
+            We used UK construction evidence from HSE, ONS, and CCS. That includes deaths, missed
+            work days, mental health, and fatigue guidance.
+          </p>
+          <p>
+            If a company does not check fatigue build-up, the scanner raises both fatigue risk and
+            safety risk. That is because unmanaged tiredness can lead to poor decisions, hidden
+            strain, and more muscle and joint injuries.
+          </p>
+        </div>
+      </section>
+
       <section className="content-grid">
         <RiskForm
           formData={formData}
@@ -161,7 +257,6 @@ function App() {
           onChange={handleChange}
           onSubmit={handleSubmit}
           onReset={handleReset}
-          onApplyScenario={handleApplyScenario}
         />
         <ResultsCard results={results} />
       </section>

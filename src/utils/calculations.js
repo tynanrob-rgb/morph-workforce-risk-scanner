@@ -50,6 +50,12 @@ function buildIntervention(riskBand, categoryScores, formData) {
     );
   }
 
+  if (formData.fatigueMonitoring === 'no') {
+    recommendations.push(
+      'Add a simple fatigue build-up measurement process so site teams can identify mounting strain before it contributes to judgement errors or musculoskeletal injury risk.',
+    );
+  }
+
   if (categoryScores.wellbeing >= 60) {
     recommendations.push(
       'Strengthen mental health support and baseline wellbeing screening so workers have a clear route into practical help.',
@@ -106,9 +112,11 @@ function getTopRiskDrivers(categoryScores, formData) {
       label: 'Fatigue and recovery',
       score: categoryScores.fatigue,
       note:
-        formData.fatigueRisk === 'high'
-          ? 'Long shifts, overtime, or travel pressure appear to be a material issue.'
-          : 'Current fatigue conditions still affect site readiness and judgement.',
+        formData.fatigueMonitoring === 'no'
+          ? 'Fatigue build-up is not currently being measured, increasing the chance of hidden strain and musculoskeletal injury risk.'
+          : formData.fatigueRisk === 'high'
+            ? 'Long shifts, overtime, or travel pressure appear to be a material issue.'
+            : 'Current fatigue conditions still affect site readiness and judgement.',
     },
     {
       label: 'Mental health and wellbeing',
@@ -132,6 +140,7 @@ export function getInitialFormData() {
     absenteeism: '',
     workAtHeightExposure: '',
     fatigueRisk: '',
+    fatigueMonitoring: '',
     mentalHealthSupport: '',
     wellbeingScreeningOffered: '',
   };
@@ -190,18 +199,21 @@ export function calculateRiskResults(formData) {
   const estimatedAnnualLoss = absenteeismCost + injuryCost;
 
   const absenteeismScore = getAbsenteeismScore(absenteeism);
-  const injuryScore = getInjuryScore(
+  const fatigueMonitoringPenalty = formData.fatigueMonitoring === 'no' ? 12 : 0;
+  const baseInjuryScore = getInjuryScore(
     injuryFrequency,
     workforceSize,
     formData.siteProfile,
     formData.workAtHeightExposure,
   );
+  const injuryScore = Math.max(0, Math.min(100, baseInjuryScore + fatigueMonitoringPenalty));
   const fatigueScore = Math.max(
     0,
     Math.min(
       100,
       (exposureScores[formData.fatigueRisk] ?? 22) +
-        Math.round((exposureScores[formData.workAtHeightExposure] ?? 22) * 0.15),
+        Math.round((exposureScores[formData.workAtHeightExposure] ?? 22) * 0.15) +
+        fatigueMonitoringPenalty,
     ),
   );
   const wellbeingScore = Math.max(

@@ -86,7 +86,8 @@ button {
 .hero-card,
 .card,
 .cta-panel,
-.lead-panel {
+.lead-panel,
+.logic-panel {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 24px;
@@ -308,6 +309,22 @@ button {
 
 .help-text {
   font-size: 0.88rem;
+}
+
+.learn-more {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.learn-more summary {
+  cursor: pointer;
+  width: fit-content;
+  color: var(--hero-ink);
+  font-weight: 700;
+}
+
+.learn-more p {
+  margin: 8px 0 0;
 }
 
 .quick-start-panel,
@@ -648,6 +665,77 @@ select:focus {
   margin-bottom: 24px;
 }
 
+.logic-panel {
+  margin-bottom: 24px;
+  padding: 28px;
+  display: grid;
+  gap: 22px;
+}
+
+.logic-copy h2 {
+  margin: 0;
+  font-size: clamp(1.7rem, 3vw, 2.4rem);
+  letter-spacing: -0.03em;
+  color: var(--hero-ink);
+}
+
+.logic-copy p {
+  max-width: 64ch;
+  color: var(--muted);
+}
+
+.logic-grid {
+  display: grid;
+  gap: 16px;
+}
+
+.logic-card,
+.logic-note {
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 18px;
+  background: var(--surface-strong);
+  box-shadow: var(--shadow-soft);
+}
+
+.logic-card h3 {
+  margin: 8px 0 6px;
+  font-size: 1.05rem;
+  color: var(--hero-ink);
+}
+
+.logic-card p,
+.logic-note p {
+  margin: 0;
+  color: var(--muted);
+}
+
+.logic-detail {
+  margin-top: 10px !important;
+}
+
+.logic-detail strong {
+  color: var(--hero-ink);
+}
+
+.logic-note {
+  display: grid;
+  gap: 10px;
+}
+
+.logic-weight {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 72px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(22, 25, 34, 0.06);
+  color: var(--hero-ink);
+  font-size: 0.95rem;
+  font-weight: 800;
+}
+
 .stat-card {
   padding: 20px;
   border-radius: 22px;
@@ -783,6 +871,10 @@ select:focus {
 
   .stats-strip {
     grid-template-columns: repeat(3, 1fr);
+  }
+
+  .logic-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .cta-panel {

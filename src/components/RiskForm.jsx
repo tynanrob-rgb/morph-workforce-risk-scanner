@@ -2,6 +2,7 @@ const SITE_PROFILE_OPTIONS = [
   'Main contractor',
   'Civils / infrastructure',
   'Fit-out / specialist trades',
+  'GroundWorks Specialists',
 ];
 
 const SITE_TYPE_OPTIONS = ['New build', 'Refurbishment', 'Maintenance', 'Demolition'];
@@ -16,51 +17,6 @@ const FATIGUE_OPTIONS = [
   { value: 'low', label: 'Low', hint: 'Shifts and recovery patterns look stable' },
   { value: 'medium', label: 'Medium', hint: 'Some overtime, travel, or schedule pressure' },
   { value: 'high', label: 'High', hint: 'Heavy overtime, long shifts, or clear fatigue concerns' },
-];
-
-const SCENARIOS = [
-  {
-    label: 'Regional contractor',
-    values: {
-      workforceSize: '240',
-      siteProfile: 'Main contractor',
-      siteType: 'New build',
-      injuryFrequency: '11',
-      absenteeism: '6',
-      workAtHeightExposure: 'medium',
-      fatigueRisk: 'medium',
-      mentalHealthSupport: 'yes',
-      wellbeingScreeningOffered: 'no',
-    },
-  },
-  {
-    label: 'Major civils site',
-    values: {
-      workforceSize: '480',
-      siteProfile: 'Civils / infrastructure',
-      siteType: 'Maintenance',
-      injuryFrequency: '19',
-      absenteeism: '7',
-      workAtHeightExposure: 'high',
-      fatigueRisk: 'high',
-      mentalHealthSupport: 'no',
-      wellbeingScreeningOffered: 'no',
-    },
-  },
-  {
-    label: 'Fast-track fit-out',
-    values: {
-      workforceSize: '160',
-      siteProfile: 'Fit-out / specialist trades',
-      siteType: 'Refurbishment',
-      injuryFrequency: '8',
-      absenteeism: '5',
-      workAtHeightExposure: 'medium',
-      fatigueRisk: 'high',
-      mentalHealthSupport: 'yes',
-      wellbeingScreeningOffered: 'yes',
-    },
-  },
 ];
 
 function SegmentedOptions({ name, options, value, onChange }) {
@@ -105,7 +61,16 @@ function BinaryOptions({ name, value, onChange }) {
   );
 }
 
-function RiskForm({ formData, errors, onChange, onSubmit, onReset, onApplyScenario }) {
+function LearnMore({ children }) {
+  return (
+    <details className="learn-more">
+      <summary>Learn more</summary>
+      <p>{children}</p>
+    </details>
+  );
+}
+
+function RiskForm({ formData, errors, onChange, onSubmit, onReset }) {
   const hasErrors = Object.keys(errors).length > 0;
 
   return (
@@ -113,28 +78,6 @@ function RiskForm({ formData, errors, onChange, onSubmit, onReset, onApplyScenar
       <div className="section-heading">
         <h2>Construction input details</h2>
         <p>Model the likely cost of absence, injuries, fatigue, and wellbeing gaps across a construction workforce.</p>
-      </div>
-
-      <div className="quick-start-panel">
-        <div>
-          <span className="side-label">Quick start</span>
-          <p className="quick-start-copy">
-            Start with a realistic contractor profile, then refine it using your own site data.
-          </p>
-        </div>
-
-        <div className="scenario-row">
-          {SCENARIOS.map((scenario) => (
-            <button
-              key={scenario.label}
-              className="scenario-button"
-              type="button"
-              onClick={() => onApplyScenario(scenario.values)}
-            >
-              {scenario.label}
-            </button>
-          ))}
-        </div>
       </div>
 
       {hasErrors ? (
@@ -180,6 +123,10 @@ function RiskForm({ formData, errors, onChange, onSubmit, onReset, onApplyScenar
             ))}
           </select>
           <span className="help-text">Choose the closest delivery model for your workforce mix and site exposure.</span>
+          <LearnMore>
+            Different construction jobs carry different levels of risk, so this changes the score a
+            little.
+          </LearnMore>
           {errors.siteProfile ? <span className="error-text">{errors.siteProfile}</span> : null}
         </label>
 
@@ -201,6 +148,9 @@ function RiskForm({ formData, errors, onChange, onSubmit, onReset, onApplyScenar
             ))}
           </select>
           <span className="help-text">Refurbishment, demolition, and maintenance can carry additional legacy exposure concerns.</span>
+          <LearnMore>
+            Some site types bring extra health risk, so they can push the score up a little.
+          </LearnMore>
           {errors.siteType ? <span className="error-text">{errors.siteType}</span> : null}
         </label>
 
@@ -251,6 +201,9 @@ function RiskForm({ formData, errors, onChange, onSubmit, onReset, onApplyScenar
             value={formData.workAtHeightExposure}
             onChange={(value) => onChange('workAtHeightExposure', value)}
           />
+          <LearnMore>
+            More work at height means more danger, so this raises the safety score.
+          </LearnMore>
           {errors.workAtHeightExposure ? (
             <span className="error-text">{errors.workAtHeightExposure}</span>
           ) : null}
@@ -267,7 +220,31 @@ function RiskForm({ formData, errors, onChange, onSubmit, onReset, onApplyScenar
             value={formData.fatigueRisk}
             onChange={(value) => onChange('fatigueRisk', value)}
           />
+          <LearnMore>
+            CCS says tired workers can think slower and react slower, so this is treated as a real
+            risk.
+          </LearnMore>
           {errors.fatigueRisk ? <span className="error-text">{errors.fatigueRisk}</span> : null}
+        </div>
+
+        <div className="field">
+          <div className="field-head">
+            <span className="field-label">
+              Does your company currently consider or measure fatigue build-up in employees?
+            </span>
+            <span className="field-hint">Fatigue monitoring can help reduce site and MSK risk</span>
+          </div>
+          <BinaryOptions
+            name="Fatigue build-up measured"
+            value={formData.fatigueMonitoring}
+            onChange={(value) => onChange('fatigueMonitoring', value)}
+          />
+          <LearnMore>
+            If fatigue is not checked, the scanner raises fatigue risk and safety risk.
+          </LearnMore>
+          {errors.fatigueMonitoring ? (
+            <span className="error-text">{errors.fatigueMonitoring}</span>
+          ) : null}
         </div>
 
         <div className="field">
@@ -280,6 +257,10 @@ function RiskForm({ formData, errors, onChange, onSubmit, onReset, onApplyScenar
             value={formData.mentalHealthSupport}
             onChange={(value) => onChange('mentalHealthSupport', value)}
           />
+          <LearnMore>
+            Stress and poor mental health can lead to more missed work, so missing support raises
+            this risk.
+          </LearnMore>
           {errors.mentalHealthSupport ? (
             <span className="error-text">{errors.mentalHealthSupport}</span>
           ) : null}
@@ -295,6 +276,10 @@ function RiskForm({ formData, errors, onChange, onSubmit, onReset, onApplyScenar
             value={formData.wellbeingScreeningOffered}
             onChange={(value) => onChange('wellbeingScreeningOffered', value)}
           />
+          <LearnMore>
+            Health checks can spot hidden problems earlier, so not offering them raises this part
+            of the score.
+          </LearnMore>
           {errors.wellbeingScreeningOffered ? (
             <span className="error-text">{errors.wellbeingScreeningOffered}</span>
           ) : null}
