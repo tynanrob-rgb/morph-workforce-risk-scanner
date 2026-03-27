@@ -107,10 +107,6 @@ function App() {
       <section className="hero-card construction-hero">
         <div className="hero-topline">
           <div className="brand-lockup" aria-label="Morph">
-            <div className="brand-mark" aria-hidden="true">
-              <span className="brand-loop brand-loop-left" />
-              <span className="brand-loop brand-loop-right" />
-            </div>
             <div>
               <p className="brand-wordmark">MORPH</p>
               <p className="brand-subtitle">Construction workforce intelligence</p>
@@ -175,9 +171,64 @@ function App() {
           <p className="eyebrow">Next step</p>
           <h2>Use this construction risk estimate to open a broader wellbeing and performance conversation.</h2>
         </div>
-        <button className="cta-button" type="button">
+        <a
+          className="cta-button"
+          href="https://morph.fit/construction"
+          target="_blank"
+          rel="noreferrer"
+        >
           Book a Morph Construction Demo
-        </button>
+        </a>
+      </section>
+
+      <section className="lead-panel">
+        <div className="lead-copy">
+          <p className="eyebrow">Book a demo</p>
+          <h2>Want a fuller conversation with Morph?</h2>
+          <p>
+            Leave your details and then continue to the main construction page to explore how
+            diagnostics, personalised health plans, and expert coaching can support your workforce.
+          </p>
+        </div>
+
+        <form className="lead-form">
+          <label className="field">
+            <span className="field-label">Full name</span>
+            <input type="text" placeholder="Jane Smith" />
+          </label>
+
+          <label className="field">
+            <span className="field-label">Work email</span>
+            <input type="email" placeholder="jane@company.com" />
+          </label>
+
+          <label className="field">
+            <span className="field-label">Company</span>
+            <input type="text" placeholder="Example Construction Ltd" />
+          </label>
+
+          <label className="field">
+            <span className="field-label">What do you want help with?</span>
+            <select defaultValue="">
+              <option value="" disabled>
+                Select focus
+              </option>
+              <option value="absence">Reducing absence and healthcare costs</option>
+              <option value="safety">Improving site safety and workforce readiness</option>
+              <option value="wellbeing">Building a stronger wellbeing programme</option>
+              <option value="retention">Retention, culture, and engagement</option>
+            </select>
+          </label>
+
+          <a
+            className="primary-button lead-submit"
+            href="https://morph.fit/construction"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Continue to Morph Construction
+          </a>
+        </form>
       </section>
     </main>
   );

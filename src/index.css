@@ -85,7 +85,8 @@ button {
 
 .hero-card,
 .card,
-.cta-panel {
+.cta-panel,
+.lead-panel {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 24px;
@@ -220,31 +221,6 @@ button {
 .brand-lockup {
   display: flex;
   align-items: center;
-  gap: 14px;
-}
-
-.brand-mark {
-  position: relative;
-  width: 72px;
-  height: 40px;
-}
-
-.brand-loop {
-  position: absolute;
-  top: 0;
-  width: 34px;
-  height: 34px;
-  border: 7px solid var(--primary);
-  border-radius: 13px;
-  transform: rotate(38deg);
-}
-
-.brand-loop-left {
-  left: 2px;
-}
-
-.brand-loop-right {
-  right: 2px;
 }
 
 .brand-wordmark,
@@ -629,6 +605,38 @@ select:focus {
   text-align: left;
 }
 
+.lead-panel {
+  margin-top: 24px;
+  padding: 28px;
+  display: grid;
+  gap: 24px;
+}
+
+.lead-copy p {
+  margin-top: 8px;
+  max-width: 58ch;
+  color: var(--muted);
+}
+
+.lead-copy h2 {
+  margin: 0;
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  letter-spacing: -0.03em;
+  color: var(--hero-ink);
+}
+
+.lead-form {
+  display: grid;
+  gap: 16px;
+}
+
+.lead-submit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+
 .construction-hero {
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(246, 248, 250, 0.92));
@@ -783,6 +791,11 @@ select:focus {
 
   .segmented-grid {
     grid-template-columns: repeat(3, 1fr);
+  }
+
+  .lead-panel {
+    grid-template-columns: minmax(0, 1fr) minmax(320px, 420px);
+    align-items: start;
   }
 }
 
