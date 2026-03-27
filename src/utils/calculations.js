@@ -143,6 +143,7 @@ function getTopRiskDrivers(categoryScores, formData) {
 export function getInitialFormData() {
   return {
     workforceSize: '',
+    sitesIncluded: '',
     siteProfile: '',
     siteType: '',
     injuryFrequency: '',
@@ -202,6 +203,7 @@ export function getRiskBand(riskScore) {
 
 export function calculateRiskResults(formData) {
   const workforceSize = Math.max(1, Number(formData.workforceSize) || 0);
+  const sitesIncluded = Math.max(1, Number(formData.sitesIncluded) || 0);
   const injuryFrequency = Math.max(0, Number(formData.injuryFrequency) || 0);
   const absenteeism = Math.max(0, Number(formData.absenteeism) || 0);
   const productiveDayValue = Math.max(0, Number(formData.productiveDayValue) || 0);
@@ -281,6 +283,7 @@ export function calculateRiskResults(formData) {
   const delayCostAvoided = delayDaysAvoided * delayCostPerDay;
 
   return {
+    sitesIncluded,
     absenteeismCost,
     injuryCost,
     estimatedAnnualLoss,

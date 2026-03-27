@@ -5,7 +5,9 @@ function ResultsCard({ results }) {
         <h2>Construction estimate</h2>
         <p>
           This estimate combines absence-related salary loss, injury exposure, fatigue, and
-          wellbeing gaps to support a stronger commercial conversation with construction leadership.
+          wellbeing gaps across {results ? results.sitesIncluded : 'your selected'} site
+          {results && results.sitesIncluded === 1 ? '' : 's'} to support a stronger commercial
+          conversation with construction leadership.
         </p>
       </div>
 
@@ -72,6 +74,27 @@ function ResultsCard({ results }) {
             </div>
           </div>
 
+          <div className="logic-note">
+            <span className="metric-label">How these figures are calculated</span>
+            <p>
+              <strong>Absence-related salary loss</strong>
+              {' '}=
+              {' '}
+              workforce size x average sick days x average daily salary.
+            </p>
+            <p>
+              <strong>Injury-related exposure</strong>
+              {' '}=
+              {' '}
+              reportable injuries x average injury cost for the selected construction profile.
+            </p>
+            <p>
+              These are whole-workforce annual estimates. They show salary and exposure cost, not
+              full revenue or profit impact, and they cover all {results.sitesIncluded} site
+              {results.sitesIncluded === 1 ? '' : 's'} in scope.
+            </p>
+          </div>
+
           <div className="driver-panel">
             <span className="metric-label">Top risk drivers</span>
             <div className="driver-list">
@@ -109,7 +132,8 @@ function ResultsCard({ results }) {
           <div className="opportunity-panel opportunity-panel-strong">
             <span className="metric-label">Annual opportunity if fatigue improves by 10%</span>
             <p className="opportunity-copy">
-              This is a whole-workforce, one-year scenario. It is not per person.
+              This is a whole-workforce, one-year scenario across {results.sitesIncluded} site
+              {results.sitesIncluded === 1 ? '' : 's'}. It is not per person.
             </p>
 
             <div className="results-grid">
@@ -181,7 +205,10 @@ function ResultsCard({ results }) {
                 In this example,{' '}
                 <strong>{results.protectedDays} protected days</strong>
                 {' '}means{' '}
-                <strong>{results.protectedDays} working days across the full assessed workforce over one year</strong>
+                <strong>
+                  {results.protectedDays} working days across the full assessed workforce over one
+                  year
+                </strong>
                 , not for each employee.
               </p>
               <p>

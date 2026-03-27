@@ -35,6 +35,12 @@ function App() {
       nextErrors.workforceSize = 'Workforce size must be at least 1.';
     }
 
+    if (formData.sitesIncluded === '') {
+      nextErrors.sitesIncluded = 'Please enter how many sites are included.';
+    } else if (Number(formData.sitesIncluded) < 1) {
+      nextErrors.sitesIncluded = 'Sites included must be at least 1.';
+    }
+
     if (!formData.siteProfile) {
       nextErrors.siteProfile = 'Please select a construction profile.';
     }

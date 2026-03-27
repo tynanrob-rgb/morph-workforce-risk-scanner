@@ -104,7 +104,31 @@ function RiskForm({ formData, errors, onChange, onSubmit, onReset }) {
             aria-invalid={Boolean(errors.workforceSize)}
           />
           <span className="help-text">Example: direct site staff, project teams, or one operating region.</span>
+          <LearnMore>
+            This should cover the people across all sites included in this assessment.
+          </LearnMore>
           {errors.workforceSize ? <span className="error-text">{errors.workforceSize}</span> : null}
+        </label>
+
+        <label className={getFieldClassName(errors.sitesIncluded)}>
+          <div className="field-head">
+            <span className="field-label">How many sites are included in this assessment?</span>
+            <span className="field-hint">Use 1 for one site, or enter the total number in scope</span>
+          </div>
+          <input
+            type="number"
+            min="1"
+            inputMode="numeric"
+            placeholder="4"
+            value={formData.sitesIncluded}
+            onChange={(event) => onChange('sitesIncluded', event.target.value)}
+            aria-invalid={Boolean(errors.sitesIncluded)}
+          />
+          <LearnMore>
+            If a contractor or developer is looking at 4 sites, enter 4. The outputs will then be
+            understood as covering that whole site group.
+          </LearnMore>
+          {errors.sitesIncluded ? <span className="error-text">{errors.sitesIncluded}</span> : null}
         </label>
 
         <label className={getFieldClassName(errors.siteProfile)}>
@@ -294,8 +318,8 @@ function RiskForm({ formData, errors, onChange, onSubmit, onReset }) {
 
         <label className={getFieldClassName(errors.productiveDayValue)}>
           <div className="field-head">
-            <span className="field-label">Value of one good working day on site</span>
-            <span className="field-hint">A simple estimate of what one productive day is worth to the business</span>
+            <span className="field-label">Value of one good worker-day on site</span>
+            <span className="field-hint">The value of one person having one productive day, not the value of the whole site</span>
           </div>
           <input
             type="number"
@@ -307,7 +331,9 @@ function RiskForm({ formData, errors, onChange, onSubmit, onReset }) {
             aria-invalid={Boolean(errors.productiveDayValue)}
           />
           <LearnMore>
-            This is not pay. It is the business value of one worker having a good, productive day.
+            This is not pay, and it is not total site value. It means one worker for one productive
+            day. If you cover 4 sites, the scanner applies this one worker-day value across the
+            whole workforce in scope.
           </LearnMore>
           {errors.productiveDayValue ? (
             <span className="error-text">{errors.productiveDayValue}</span>
