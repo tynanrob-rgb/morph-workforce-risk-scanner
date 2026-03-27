@@ -72,6 +72,7 @@ function LearnMore({ children }) {
 
 function RiskForm({ formData, errors, onChange, onSubmit, onReset }) {
   const hasErrors = Object.keys(errors).length > 0;
+  const getFieldClassName = (error) => (error ? 'field field-error' : 'field');
 
   return (
     <section className="card">
@@ -82,12 +83,12 @@ function RiskForm({ formData, errors, onChange, onSubmit, onReset }) {
 
       {hasErrors ? (
         <div className="form-alert" role="alert">
-          Please fix the highlighted construction inputs to generate the estimate.
+          Complete the highlighted questions to generate your construction risk estimate.
         </div>
       ) : null}
 
       <form className="form-grid" onSubmit={onSubmit} noValidate>
-        <label className="field">
+        <label className={getFieldClassName(errors.workforceSize)}>
           <div className="field-head">
             <span className="field-label">Workforce size</span>
             <span className="field-hint">Employees included in the programme scope</span>
@@ -105,7 +106,7 @@ function RiskForm({ formData, errors, onChange, onSubmit, onReset }) {
           {errors.workforceSize ? <span className="error-text">{errors.workforceSize}</span> : null}
         </label>
 
-        <label className="field">
+        <label className={getFieldClassName(errors.siteProfile)}>
           <div className="field-head">
             <span className="field-label">Construction profile</span>
             <span className="field-hint">Adjusts assumptions within a construction context</span>
@@ -130,7 +131,7 @@ function RiskForm({ formData, errors, onChange, onSubmit, onReset }) {
           {errors.siteProfile ? <span className="error-text">{errors.siteProfile}</span> : null}
         </label>
 
-        <label className="field">
+        <label className={getFieldClassName(errors.siteType)}>
           <div className="field-head">
             <span className="field-label">Site type</span>
             <span className="field-hint">Used for exposure and recommendation context</span>
@@ -154,7 +155,7 @@ function RiskForm({ formData, errors, onChange, onSubmit, onReset }) {
           {errors.siteType ? <span className="error-text">{errors.siteType}</span> : null}
         </label>
 
-        <label className="field">
+        <label className={getFieldClassName(errors.injuryFrequency)}>
           <div className="field-head">
             <span className="field-label">Reportable injuries per year</span>
             <span className="field-hint">Use the last 12 months if possible</span>
@@ -172,7 +173,7 @@ function RiskForm({ formData, errors, onChange, onSubmit, onReset }) {
           {errors.injuryFrequency ? <span className="error-text">{errors.injuryFrequency}</span> : null}
         </label>
 
-        <label className="field">
+        <label className={getFieldClassName(errors.absenteeism)}>
           <div className="field-head">
             <span className="field-label">Average sick days per employee</span>
             <span className="field-hint">Annual average across the selected workforce</span>
@@ -190,7 +191,7 @@ function RiskForm({ formData, errors, onChange, onSubmit, onReset }) {
           {errors.absenteeism ? <span className="error-text">{errors.absenteeism}</span> : null}
         </label>
 
-        <div className="field">
+        <div className={getFieldClassName(errors.workAtHeightExposure)}>
           <div className="field-head">
             <span className="field-label">Work at height exposure</span>
             <span className="field-hint">Falls from height remain a major construction risk</span>
@@ -209,7 +210,7 @@ function RiskForm({ formData, errors, onChange, onSubmit, onReset }) {
           ) : null}
         </div>
 
-        <div className="field">
+        <div className={getFieldClassName(errors.fatigueRisk)}>
           <div className="field-head">
             <span className="field-label">Fatigue risk</span>
             <span className="field-hint">Long shifts, travel, and overtime can impair judgement</span>
@@ -227,7 +228,7 @@ function RiskForm({ formData, errors, onChange, onSubmit, onReset }) {
           {errors.fatigueRisk ? <span className="error-text">{errors.fatigueRisk}</span> : null}
         </div>
 
-        <div className="field">
+        <div className={getFieldClassName(errors.fatigueMonitoring)}>
           <div className="field-head">
             <span className="field-label">
               Does your company currently consider or measure fatigue build-up in employees?
@@ -247,7 +248,7 @@ function RiskForm({ formData, errors, onChange, onSubmit, onReset }) {
           ) : null}
         </div>
 
-        <div className="field">
+        <div className={getFieldClassName(errors.mentalHealthSupport)}>
           <div className="field-head">
             <span className="field-label">Mental health support pathway in place</span>
             <span className="field-hint">Include policy, signposting, or support access</span>
@@ -266,7 +267,7 @@ function RiskForm({ formData, errors, onChange, onSubmit, onReset }) {
           ) : null}
         </div>
 
-        <div className="field">
+        <div className={getFieldClassName(errors.wellbeingScreeningOffered)}>
           <div className="field-head">
             <span className="field-label">Wellbeing screening currently offered</span>
             <span className="field-hint">Diagnostics, baseline testing, or structured health checks</span>

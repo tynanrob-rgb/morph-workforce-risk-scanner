@@ -283,6 +283,13 @@ button {
   gap: 8px;
 }
 
+.field-error {
+  padding: 14px;
+  border: 1px solid rgba(198, 40, 40, 0.22);
+  border-radius: 18px;
+  background: rgba(255, 241, 241, 0.65);
+}
+
 .field-head {
   display: flex;
   flex-wrap: wrap;
@@ -457,6 +464,13 @@ select:focus {
   outline: 2px solid rgba(22, 25, 34, 0.12);
   border-color: var(--primary);
   box-shadow: 0 0 0 5px rgba(22, 25, 34, 0.08);
+}
+
+.field-error input,
+.field-error select,
+.field-error .segment-button,
+.field-error .binary-button {
+  border-color: rgba(198, 40, 40, 0.35);
 }
 
 .error-text {
